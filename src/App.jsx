@@ -1,154 +1,105 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import './App.css'
+import Time from "./components/time";
+import Settings from "./components/settings";
 
-class App extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      session: 25,
-      break: 5,
-      timer: 1500,
-      paused: true,
-      intervalController: 0,
-      label: "Session"
-    }
-    this.handleClickArrows = this.handleClickArrows.bind(this);
-    this.handleClickPlayPause = this.handleClickPlayPause.bind(this);
-    this.displayFormatter = this.displayFormatter.bind(this);
-    this.handleClickReset = this.handleClickReset.bind(this);
-  }
+export default function App () {
+  const [session, useSession] = useState(25);
+  const [breaker, useBreaker] = useState(5);
+  const [timer, useTimer] = useState(1500);
+  const [paused, usePaused] = useState(true);
+  const [label, useLabel] = useState("Session");
+  const [intervalController, useIntervalController] = useState(false);
 
-  handleClickArrows = (e) => {
-    const action = e.target.id;
-    let newValue = this.state.session;
-    
-    if(this.state.paused === false){
+  useEffect(()=>{
+    if(paused){
       return;
     }
 
-    if (action === "break-decrement"){
-      this.setState(
-        (previousState)=> {
-          if(this.state.break > 1) {
-            return ({
-              break: previousState.break -1
-            })
-          }
-        }
-      )
-    }
-
-    if (action === "break-increment"){
-      this.setState(
-        (previousState)=> {
-          if(this.state.break < 60) {
-            return ({
-              break: previousState.break +1
-            })
-          }
-        }
-      )
-    }
-
-    if (action === "session-decrement"){
-      newValue--;
-      this.setState(
-        ()=> {
-          if(this.state.session > 1) {
-            return ({
-              session: newValue,
-              timer: newValue * 60
-            })
-          }
-        }
-      )
-    }
-
-    if (action === "session-increment"){
-      newValue++
-      this.setState(
-        ()=> {
-          if(this.state.session < 60) {
-            return ({
-              session: newValue,
-              timer: newValue * 60
-            })
-          }
-        }
-      )
-    }
-
-  }
-
-  sessionTurn = () => {
-    let intervalId = setInterval(()=> {
-      if(!this.state.paused && this.state.timer>0){
-        this.setState(
-          ()=> ({
-            timer: this.state.timer-1,
-            intervalStarted:true,
-            label: "Session"
-          })
-        )
-      } else if (!this.state.paused && this.state.timer === 0){
+    if(intervalController){
+      if(timer === 0){
+        useTimer(session * 60);
         document.getElementById("beep").play();
-        clearInterval(intervalId);
-        this.setState({timer: this.state.break * 60, label: "Break"}, this.breakTurn());
+        useIntervalController(false)
+        return;
       }
-    }, 1000)    
-  }
 
-  breakTurn = () => {
-    let intervalId = setInterval(()=> {
-      if(!this.state.paused && this.state.timer > 0){
-        this.setState(
-          ()=> ({
-            timer: this.state.timer-1,
-            intervalStarted:true
-          })
-        )
-      } else if (!this.state.paused && this.state.timer === 0){
-        document.getElementById("beep").play();
-        clearInterval(intervalId);
-        this.setState({timer: this.state.session * 60, label: "Session"}, this.sessionTurn());
-      }
-    }, 1000)
-    
-  }
-
-  handleClickPlayPause = () => {
-    this.setState(
-      (previousState) => ({
-        paused: !previousState.paused,
-        intervalController: previousState.intervalController +1
-      })
-    )
-    console.log(this.state.intervalController)
-    if(this.state.intervalController === 0){
-      this.sessionTurn();
+      useLabel("Break")
+      const breakInterval = setInterval(()=>{
+        useTimer(previoustimer => previoustimer - 1);  
+      }, 1000);
+      return () => clearInterval(breakInterval);
     }
     
+    if (timer === 0){
+      useTimer(breaker * 60);
+      document.getElementById("beep").play();
+      useIntervalController(true);
+      return;
+    }
+
+    const timerInterval = setInterval(()=>{
+      useLabel("Session");
+      useTimer(previoustimer => previoustimer - 1);  
+    }, 1000);
+    return () => clearInterval(timerInterval);
+
+  }, [paused, timer, intervalController]);  
+
+  const handleClickArrows = (e) => {
+    const action = e.target.id;
+    
+    if(!paused){
+      return;
+    }
+
+    switch (action) {
+      case "break-decrement":
+        if(breaker === 1){
+          return;
+        }
+        return useBreaker(currentBreaker => currentBreaker - 1);
+      case "break-increment":
+        if(breaker === 60){
+          return;
+        }
+        return useBreaker(currentBreaker => currentBreaker + 1);
+      case "session-decrement":
+        if(session === 1){
+          return;
+        }
+        useSession(currentSession => currentSession - 1);
+        useTimer(currentTimer => currentTimer - 60);
+        return;
+      case "session-increment":
+        if(session === 60){
+          return;
+        }
+        useSession(currentSession => currentSession + 1);
+        useTimer(currentTimer => currentTimer + 60);
+        return;
+    }
+  }
+
+  const handleClickPlayPause = () => {
+    usePaused(!paused);
   }
   
-  handleClickReset = () => {
+  const handleClickReset = () => {
     const audioBeep = document.getElementById("beep");
     audioBeep.pause();
-    this.setState(
-      ()=> ({
-        session: 25,
-        break: 5,
-        timer: 1500,
-        paused: true,
-        intervalController: 0,
-        label: "Session"
-      })
-    )
+    useSession(25);
+    useBreaker(5);
+    useTimer(1500);
+    usePaused(true)
+    useLabel("Session")
     audioBeep.currentTime = 0;
+    return;
   }
 
-  displayFormatter = ()=> {
-    let minutes = Math.floor(this.state.timer / 60);
-    let seconds = this.state.timer - (minutes * 60);
+  const displayFormatter = ()=> {
+    let minutes = Math.floor(timer / 60);
+    let seconds = timer - (minutes * 60);
     
     seconds = seconds < 10 ? '0' + seconds : seconds;
     minutes = minutes < 10 ? '0' + minutes : minutes;
@@ -156,76 +107,22 @@ class App extends React.Component {
     return minutes + ':' + seconds;
   }
 
-  render() {
-
-    return (
-      <div id="full-project">
-        <h1 id="title">25 + 5 Clock</h1>
-
-        <Settings 
-          timeSession={this.state.session}
-          timeBreak={this.state.break}
-          clickers={this.handleClickArrows}
-        />
-        
-        <Time  
-          label={this.state.label}   
-          displayFormatter={this.displayFormatter} 
-          handleClickPlayPause={this.handleClickPlayPause} 
-          handleClickReset={this.handleClickReset}
-        />
-
-      </div>
-    )
-  }
-}
-
-
-class Settings extends React.Component {
-  render(){
-    return (
-      <div id="settings">
-
-          <div id="break">
-            <h3>Break Length</h3>
-            <div id="break-label">
-              <button id="break-decrement" onClick={this.props.clickers}>&darr;</button>
-              <h4 id="break-length" >{this.props.timeBreak}</h4> 
-              <button id="break-increment" onClick={this.props.clickers}>&uarr;</button>
-            </div>
-          </div>
-
-          <div id="session">
-            <h3>Session Length</h3>
-            <div id="session-label">
-              <button id="session-decrement" onClick={this.props.clickers}>&darr;</button>
-              <h4 id="session-length">{this.props.timeSession}</h4>
-              <button id="session-increment" onClick={this.props.clickers}>&uarr;</button>
-            </div>
-          </div>
-
-        </div>
-    )
-  }
-}
-
-
-
-
-function Time({displayFormatter, handleClickPlayPause, handleClickReset, label}) {
   return (
-    <div id="timer">
-      <div id="timer-counter">
-        <h3 id="timer-label">{label}</h3>
-        <h2 id="time-left">{displayFormatter()}</h2>
-        <audio id="beep" src="https://sampleswap.org/samples-ghost/SOUND%20EFFECTS%20and%20NOISES/Alarm%20Sounds/137[kb]alarm-synth-verb-hit.wav.mp3"></audio>
+    <div id="full-project">
+      <div id="title" className="allItems">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Tomato.png" alt="tomato" />
       </div>
-      
-      <div>
-        <button id="start_stop" onClick={handleClickPlayPause}>PLAY/PAUSE</button>
-        <button id="reset" onClick={handleClickReset}>RESET</button>
-      </div>
-    </div>);
+      <Settings 
+        timeSession={session}
+        timeBreak={breaker}
+        clickers={handleClickArrows}
+      />
+      <Time  
+        label={label}   
+        displayFormatter={displayFormatter} 
+        handleClickPlayPause={handleClickPlayPause} 
+        handleClickReset={handleClickReset}
+      />
+    </div>
+  )
 }
-  
-export default App
