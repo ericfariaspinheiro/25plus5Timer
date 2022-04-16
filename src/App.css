@@ -1,20 +1,43 @@
 * {
   margin: 0;
+  font-family: 'Helvetica';
+  font-weight: 550;
 }
 
-#root {
-  width: 100%;
-  height: 100vh;
-  background-image: radial-gradient(circle farthest-corner at 10% 20%, rgba(14, 174, 87, 1) 0%, rgba(12, 116, 117, 1) 90%);
-  display: grid;
-  place-items: center;
+body {
+  background: url("https://chillhop.com/wp-content/uploads/2022/04/c46e7efae453e56f839e3683926e809639f167b0-1024x1024.jpg") no-repeat center center fixed;
+  /* background-image: radial-gradient(
+    circle farthest-corner at 10% 20%,
+    rgba(14, 174, 87, 1) 0%,
+    rgba(12, 116, 117, 1) 90%
+  ); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  height:100vh;
+  
 }
 
-#full-project {
+#fullPage {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.pomodoroContainer {
+  display: flex;
+  margin: auto;
+  position: relative;
+}
+
+#pomodoro {
   padding: 10px;
   text-align: center;
-  background-color: #d9d9d9;
-  border: 5px solid #353535;
+  background: linear-gradient(
+    to right bottom,
+    rgba(225, 225, 255, 0.7),
+    rgba(255, 255, 255, 0.3)
+  );
   border-radius: 25px;
   display: flex;
   flex-direction: column;
@@ -26,13 +49,15 @@
 }
 
 #title {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
+  position:absolute;
+  top: -40px;
+  left: 110px;
 }
 
-#title img{
-  width: 100%;
-  height: 100%;
+#title img {
+  max-width: 100%;
 }
 
 #settings {
@@ -42,6 +67,7 @@
   flex-wrap: wrap;
   justify-content: space-evenly;
   text-align: center;
+  padding-top: 50px;
 }
 
 #break-label {
@@ -72,17 +98,18 @@
   margin-top: 15px;
   margin-bottom: 15px;
   border-radius: 25px;
+  background-color: rgba(255, 255, 255, 0.596);
 }
 
 .lowerButtons {
   display: flex;
-  justify-content:space-around;
+  justify-content: space-around;
 }
 
 #timer button {
   box-shadow: inset 0px 1px 0px 0px #ffffff;
-  background: linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
-  background-color: #f9f9f9;
+  background: linear-gradient(to bottom, #f9f9f950 5%, #e9e9e9 100%);
+  background-color: #f9f9f970;
   border-radius: 6px;
   border: 1px solid #dcdcdc;
   display: inline-block;
@@ -96,12 +123,51 @@
   text-shadow: 0px 1px 0px #ffffff;
 }
 
-#timer button {
+#timer button:hover {
   background: linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);
   background-color: #e9e9e9;
 }
 
-#timer button {
+#timer button:active {
   position: relative;
   top: 1px;
+}
+
+.arrowButtons {
+  box-shadow: inset 0px 1px 0px 0px #ffffff;
+  background: linear-gradient(to bottom, #f9f9f950 5%, #e9e9e9 100%);
+  background-color: #f9f9f970;
+  border-radius: 6px;
+  border: 1px solid #dcdcdc;
+  display: inline-block;
+  cursor: pointer;
+  color: #666666;
+  font-family: Arial;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px 12px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #ffffff;
+}
+
+@media only screen and (max-width: 420px) {
+  .header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 10vh;
+    background: linear-gradient(rgba(255, 255, 255), rgba(255, 255, 255, 0));
+  }
+}
+
+
+@media (min-width: 1024px) {
+  #fullPage{
+    flex-direction: row;
+  }
+
+  #todo{
+    height: 100vh;
+  }  
 }

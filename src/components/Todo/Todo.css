@@ -1,0 +1,44 @@
+#todo {
+    background: linear-gradient(
+    rgba(225, 225, 255, 0.8),
+    rgba(255, 255, 255, 0.0)
+  );
+}
+
+.AddTaskSpace{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.addTaskButton {
+    cursor: pointer;
+    width: 100%;
+    padding: 0.5rem;
+    border: 0;
+    background: linear-gradient(
+    to right bottom,
+    rgba(225, 225, 255, 0.7),
+    rgba(255, 255, 255, 0.3)
+  );
+  box-shadow: inset 0px 33px 25px 0 rgba(225, 225, 255, 0.7), 
+            inset 0 66px 15px 0px rgba(255, 255, 255, 0.5),
+            inset 0 99px 5px 0px rgba(255, 255, 255, 0.3);
+}
+
+.AddTaskSpace input{
+    width: 100%;
+}
+
+.taskNode{
+    display: flex;
+    background: white;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media (min-width: 1024px) {
+    #todo{
+        width: 25%;
+    }
+    
+}
