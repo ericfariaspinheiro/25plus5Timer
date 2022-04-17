@@ -1,21 +1,45 @@
+#todo {
+    width: 100%;
+}
+#todo .header {
+    background-color: rgba(255, 255, 255, 0.937);
+    border-radius: 10px 10px 0 0;
+    padding: 1rem 0 1rem 0;
+    margin-bottom: 0.4rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header h2 {
+    padding: 0 20px;
+}
+
 .AddTaskSpace{
     display: flex;
     flex-wrap: wrap;
 }
 
-.addTaskButton {
-    cursor: pointer;
-    width: 100%;
-    padding: 0.5rem;
+.AddTaskButtons{
+    display: flex;
+    align-items: center;
+}
+
+.AddTaskSpace input, .AddTaskButtons button{
     border: 0;
-    background: linear-gradient(
-    to right bottom,
-    rgba(225, 225, 255, 0.7),
-    rgba(255, 255, 255, 0.3)
-  );
-  box-shadow: inset 0px 33px 25px 0 rgba(225, 225, 255, 0.7), 
-            inset 0 66px 15px 0px rgba(255, 255, 255, 0.5),
-            inset 0 99px 5px 0px rgba(255, 255, 255, 0.3);
+    background-color:unset;
+}
+
+.boxTask {
+    cursor: pointer;
+    padding: 0.7rem;
+    border: 0;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.937);
+}
+
+.addTaskButton {
+    width: 100%;
+    padding: 0.8rem;
 }
 
 .AddTaskSpace input{
@@ -32,19 +56,29 @@
     margin-bottom: 0.375rem;
 }
 
+.taskNode p {
+    width: 100%;
+    margin-left: 5px;
+}
+
 .completedTaskNode {
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.401);
+    background: rgba(255, 255, 255, 0.536);
     padding: 1rem;
     border-radius: 10px;
     margin-bottom: 0.375rem;
-
 }
 
 .completedTaskNode p {
     text-decoration:line-through;
-    
+    width: 100%;
+    margin-left: 5px;
+}
+
+.removeButton {
+    border: 0;
+    background: unset;
 }
 
 @media (min-width: 1024px) {

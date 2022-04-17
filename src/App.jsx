@@ -1,18 +1,15 @@
 import React from "react";
 import "./App.css";
-import Todo from "./components/Todo/Todo";
+import Header from "./components/Header/Header";
 import Pomodoro from "./components/Pomodoro/Pomodoro";
+import Todo from "./components/Todo/Todo";
 
 export default function App() {
-	
-
 	return (
 		<div id="fullPage">
-			<h2 className="header">Study Space</h2>
+			<Header />
 			<Pomodoro />
-			<div id="todo">
-				<Todo />
-			</div>
+			<Todo />	
 		</div>
 	);
 }

@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
+
 import "./Todo.css";
 
 function Todo() {
@@ -70,8 +73,8 @@ function Todo() {
 	}
 
 	return (
-		<>
-			<h2 className="header">Tasks: {taskCounter}</h2>
+		<div id="todo">
+			<Title taskCounter={taskCounter}/>
 			{(taskCounter > 0) &&
 				<TaskList 
 					allTaskNodes={allTaskNodes}
@@ -96,22 +99,33 @@ function Todo() {
 					addTask={toggler} 
 				/>
 			}
-		</>
+		</div>
+	);
+}
+
+function Title (props) {
+	return (
+		<div className="header">
+			<h2 >Tasks:</h2>
+			<h2>{props.taskCounter}</h2>
+		</div>
 	);
 }
 
 function AddTaskButton (props) {
 	return(
-		<button onClick={props.addTask} className="addTaskButton">Click to add a task</button>
+		<button onClick={props.addTask} className="boxTask addTaskButton"><FontAwesomeIcon icon={faPlus} /></button>
 	);
 }
 
 function AddTaskSpace (props) {
 	return (
-		<div className="AddTaskSpace">
-			<input type="text" onChange={props.updateTaskText} />
-			<button onClick={props.handleAdd}>Add</button>
-			<button onClick={props.handleCancel}>Cancel</button>
+		<div className="boxTask AddTaskSpace">
+			<input type="text" placeholder="Task description" onChange={props.updateTaskText} />
+			<div className="AddTaskButtons">
+				<button onClick={props.handleAdd}>Add</button>
+				<button onClick={props.handleCancel}>Cancel</button>
+			</div>
 		</div>
 	);
 }
@@ -138,7 +152,7 @@ function CreateTask (props) {
 		<div className="taskNode">
 			<input type="checkbox" onClick={()=> props.handleCompletedTask(props.item)} />
 			<p>{props.item["content"]}</p>
-			<button onClick={()=> props.handleDeleteNode(props.item)}>Delete</button>
+			<button onClick={()=> props.handleDeleteNode(props.item)} className="removeButton"><FontAwesomeIcon icon={faTrash} /></button>
 		</div>
 	);
 }

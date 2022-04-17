@@ -5,6 +5,7 @@
 }
 
 body {
+  width: 100vw;
   background: url("https://chillhop.com/wp-content/uploads/2022/04/c46e7efae453e56f839e3683926e809639f167b0-1024x1024.jpg") no-repeat center center fixed;
   /* background-image: radial-gradient(
     circle farthest-corner at 10% 20%,
@@ -22,9 +23,13 @@ body {
   justify-content: space-around;
 }
 
-#fullPage .header {
+.header {
   width: 100%;
-  padding: 1rem;
+}
+
+.header h1 {
+  padding: 10px;
+  font-size: x-large;
 }
 
 .pomodoroContainer {
@@ -167,3 +172,6 @@ body {
     margin: auto;
   }
 }
+
+
+/* IGNORE */
