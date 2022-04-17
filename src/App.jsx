@@ -8,7 +8,7 @@ export default function App() {
 
 	return (
 		<div id="fullPage">
-			<div className="header"></div>
+			<h2 className="header">Study Space</h2>
 			<Pomodoro />
 			<div id="todo">
 				<Todo />

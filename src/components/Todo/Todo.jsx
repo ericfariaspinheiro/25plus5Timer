@@ -8,6 +8,7 @@ function Todo() {
 	const [toggleInput, useToggleInput] = useState(false);
 	const [taskText, useTaskText] = useState("");
 	const [allTaskNodes, useAllTaskNodes] = useState([]);
+	const [completedTasks, useCompletedTasks] = useState([]);
 	
 	function toggler () {
 		return useToggleInput(!toggleInput);
@@ -22,8 +23,9 @@ function Todo() {
 			return useToggleInput(!toggleInput);
 		}
 
+		const idNumber = Math.floor(Math.random() * (100 - 1) + 1);
 		const newNode = {
-			id: taskCounter,
+			id: idNumber,
 			content: taskText,
 			status: "To Do"
 		};
@@ -48,32 +50,39 @@ function Todo() {
 		return useAllTaskNodes(newList);
 	}
 
-	function handleEditNode (item) {
-		
-		allTaskNodes.map((currentNode)=>{
-			if(currentNode["id"] === item["id"]){
-				console.log("test");		
-				currentNode["status"] = "edit";
-			}
+	function handleCompletedTask (item){
+		const newList = allTaskNodes.filter((currentNode)=>{
+			return currentNode["id"] !== item["id"];
 		});
-
-		return useAllTaskNodes([...allTaskNodes]);
+		useTaskCounter(prevTaskCounter => prevTaskCounter - 1);
+		useAllTaskNodes(newList);
+		return useCompletedTasks([...completedTasks, item]);
 	}
-	
+
+	function undoCompletedtask (item){
+		console.log(item);
+		const newList = completedTasks.filter((currentNode)=>{
+			return currentNode["id"] !== item["id"];
+		});
+		useCompletedTasks(newList);
+		useTaskCounter(prevTaskCounter => prevTaskCounter + 1);
+		return useAllTaskNodes([...allTaskNodes, item]);
+	}
 
 	return (
-		<div>
-			<h2>Tasks: {taskCounter}</h2>
-			{(taskCounter > 0) ? 
+		<>
+			<h2 className="header">Tasks: {taskCounter}</h2>
+			{(taskCounter > 0) &&
 				<TaskList 
 					allTaskNodes={allTaskNodes}
 					handleDeleteNode={handleDeleteNode}
-					handleEditNode={handleEditNode}
-				/> : 
-				<TaskList 
-					allTaskNodes={allTaskNodes}
-					handleDeleteNode={handleDeleteNode}
-					handleEditNode={handleEditNode}
+					handleCompletedTask={handleCompletedTask}
+				/> 
+			}
+			{(completedTasks.length > 0) && 
+				<CompletedList 
+					completedTasks={completedTasks}
+					undoCompletedtask={undoCompletedtask}
 				/>
 			}
 			{toggleInput ? 
@@ -87,13 +96,13 @@ function Todo() {
 					addTask={toggler} 
 				/>
 			}
-		</div>
+		</>
 	);
 }
 
 function AddTaskButton (props) {
 	return(
-		<button onClick={props.addTask} className="addTaskButton">Add here a task</button>
+		<button onClick={props.addTask} className="addTaskButton">Click to add a task</button>
 	);
 }
 
@@ -108,23 +117,18 @@ function AddTaskSpace (props) {
 }
 
 function TaskList (props) {
-	const test = props.allTaskNodes.map((item)=> {
-		if(item["status"] === "edit"){
-			return (<EditTask 
-				item={item}
-				key={`${item["id"]}${item["content"]}`}
-			/>);
-		}
+	const taskList = props.allTaskNodes.map((item)=> {
 		return (<CreateTask 
 			item={item}
 			key={`${item["id"]}${item["content"]}`}
 			handleDeleteNode={props.handleDeleteNode}
-			handleEditNode={props.handleEditNode}
+			handleCompletedTask={props.handleCompletedTask}
 		/>);
 	});
+
 	return(
 		<div>
-			{test}
+			{taskList}
 		</div>
 	);
 }
@@ -132,23 +136,36 @@ function TaskList (props) {
 function CreateTask (props) {
 	return (
 		<div className="taskNode">
-			<input type="radio" />
+			<input type="checkbox" onClick={()=> props.handleCompletedTask(props.item)} />
 			<p>{props.item["content"]}</p>
-			<div>
-				<button onClick={()=> props.handleEditNode(props.item)}>Edit</button>
-				<button onClick={()=> props.handleDeleteNode(props.item)}>Delete</button>
-			</div>
+			<button onClick={()=> props.handleDeleteNode(props.item)}>Delete</button>
 		</div>
 	);
 }
 
-function EditTask (props) {
-	console.log(props);
-	return(
+function CompletedList (props) {
+	const allCompletedTasks = props.completedTasks.map((item)=>{
+		return(
+			<CompletedTask 
+				item={item}
+				key={`${item["id"]}${item["content"]}`}
+				undoCompletedtask={props.undoCompletedtask}
+			/>
+		);
+	});
+
+	return (
 		<div>
-			<textarea name="" id="" cols="25" rows="3" value={props.item["content"]}></textarea>
-			<button>Save</button>
-			<button>Cancel</button>
+			{allCompletedTasks}
+		</div>
+	);
+}
+
+function CompletedTask (props) {
+	return (
+		<div className="completedTaskNode" >
+			<input type="checkbox" onChange={()=>props.undoCompletedtask(props.item)} checked/>
+			<p>{props.item["content"]}</p>
 		</div>
 	);
 }

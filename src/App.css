@@ -13,8 +13,6 @@ body {
   ); */
   background-repeat: no-repeat;
   background-size: cover;
-  height:100vh;
-  
 }
 
 #fullPage {
@@ -24,9 +22,14 @@ body {
   justify-content: space-around;
 }
 
+#fullPage .header {
+  width: 100%;
+  padding: 1rem;
+}
+
 .pomodoroContainer {
   display: flex;
-  margin: auto;
+  margin: 10% auto;
   position: relative;
 }
 
@@ -150,17 +153,6 @@ body {
   text-shadow: 0px 1px 0px #ffffff;
 }
 
-@media only screen and (max-width: 420px) {
-  .header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 10vh;
-    background: linear-gradient(rgba(255, 255, 255), rgba(255, 255, 255, 0));
-  }
-}
-
 
 @media (min-width: 1024px) {
   #fullPage{
@@ -170,4 +162,8 @@ body {
   #todo{
     height: 100vh;
   }  
+
+  .pomodoroContainer {
+    margin: auto;
+  }
 }
