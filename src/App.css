@@ -31,15 +31,6 @@ body {
   margin: 0 10px;
 }
 
-.header {
-  width: 100%;
-}
-
-.header h1 {
-  padding: 10px;
-  font-size: x-large;
-}
-
 .pomodoroContainer {
   display: flex;
   margin: 10% auto;
