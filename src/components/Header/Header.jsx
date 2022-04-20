@@ -16,6 +16,7 @@ export default function Header () {
 
 	function pauseSong() {
 		useAudioActive(!audioActive);
+		console.log("Test");
 		return audio.pause();	
 	}
 
