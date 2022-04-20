@@ -2,18 +2,25 @@
   margin: 0;
   font-family: 'Helvetica';
   font-weight: 550;
+  
 }
 
 body {
   width: 100vw;
-  background: url("https://chillhop.com/wp-content/uploads/2022/04/c46e7efae453e56f839e3683926e809639f167b0-1024x1024.jpg") no-repeat center center fixed;
-  /* background-image: radial-gradient(
-    circle farthest-corner at 10% 20%,
-    rgba(14, 174, 87, 1) 0%,
-    rgba(12, 116, 117, 1) 90%
-  ); */
+  background-color: black;
   background-repeat: no-repeat;
+}
+
+#root {
+  background: url("https://chillhop.com/wp-content/uploads/2022/04/c46e7efae453e56f839e3683926e809639f167b0-1024x1024.jpg") no-repeat center center fixed;
   background-size: cover;
+  border-radius: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
 }
 
 #fullPage {
@@ -21,6 +28,7 @@ body {
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-around;
+  margin: 0 10px;
 }
 
 .header {
@@ -160,18 +168,14 @@ body {
 
 
 @media (min-width: 1024px) {
+  #root {
+    border-radius: 0;
+  }
   #fullPage{
     flex-direction: row;
   }
 
-  #todo{
-    height: 100vh;
-  }  
-
   .pomodoroContainer {
-    margin: auto;
+    margin: 20 auto;
   }
 }
-
-
-/* IGNORE */

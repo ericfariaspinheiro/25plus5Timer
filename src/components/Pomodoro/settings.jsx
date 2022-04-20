@@ -9,17 +9,17 @@ export default function Settings (props) {
 			<div id="break">
 				<h3>Break Length</h3>
 				<div id="break-label">
-					<button id="break-decrement" className="arrowButtons"  onClick={props.clickers}><FontAwesomeIcon icon={faArrowUp} /></button>
+					<FontAwesomeIcon id="break-decrement" icon={faArrowDown} className="arrowButtons" onClick={props.clickers} />
 					<h4 id="break-length" >{props.timeBreak}</h4> 
-					<button id="break-increment" className="arrowButtons" onClick={props.clickers}><FontAwesomeIcon icon={faArrowDown} /></button>
+					<FontAwesomeIcon id="break-increment" icon={faArrowUp} className="arrowButtons" onClick={props.clickers} />
 				</div>
 			</div>
 			<div id="session">
 				<h3>Session Length</h3>
 				<div id="session-label">
-					<button id="session-decrement" className="arrowButtons" onClick={props.clickers}><FontAwesomeIcon icon={faArrowDown} /></button>
+					<FontAwesomeIcon id="session-decrement" icon={faArrowDown} className="arrowButtons" onClick={props.clickers}/>
 					<h4 id="session-length">{props.timeSession}</h4>
-					<button id="session-increment" className="arrowButtons"onClick={props.clickers}><FontAwesomeIcon icon={faArrowUp} /></button>
+					<FontAwesomeIcon id="session-increment" icon={faArrowUp} className="arrowButtons"onClick={props.clickers} />
 				</div>
 			</div>
 		</div>

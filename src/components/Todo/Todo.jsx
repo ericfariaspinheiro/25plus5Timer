@@ -1,8 +1,11 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
+
+import Title from "./Title";
+import AddTask from "./AddTask";
+import TaskList from "./TaskList";
+import CompletedList from "./CompletedList";
 
 import "./Todo.css";
 
@@ -12,7 +15,7 @@ function Todo() {
 	const [taskText, useTaskText] = useState("");
 	const [allTaskNodes, useAllTaskNodes] = useState([]);
 	const [completedTasks, useCompletedTasks] = useState([]);
-	
+
 	function toggler () {
 		return useToggleInput(!toggleInput);
 	}
@@ -71,6 +74,14 @@ function Todo() {
 		useTaskCounter(prevTaskCounter => prevTaskCounter + 1);
 		return useAllTaskNodes([...allTaskNodes, item]);
 	}
+	
+	function handleDeleteCompleted (item) {
+		const newList = completedTasks.filter((currentNode)=>{
+			return currentNode["id"] !== item["id"];
+		});
+	
+		return useCompletedTasks(newList);
+	}	
 
 	return (
 		<div id="todo">
@@ -86,100 +97,16 @@ function Todo() {
 				<CompletedList 
 					completedTasks={completedTasks}
 					undoCompletedtask={undoCompletedtask}
+					handleDeleteCompleted={handleDeleteCompleted}
 				/>
 			}
-			{toggleInput ? 
-				<AddTaskSpace 
-					updateTaskText={updateTaskText}
-					handleAdd={handleAdd}
-					handleCancel={handleCancel}
-				/> 
-				: 
-				<AddTaskButton 
-					addTask={toggler} 
-				/>
-			}
-		</div>
-	);
-}
-
-function Title (props) {
-	return (
-		<div className="header">
-			<h2 >Tasks:</h2>
-			<h2>{props.taskCounter}</h2>
-		</div>
-	);
-}
-
-function AddTaskButton (props) {
-	return(
-		<button onClick={props.addTask} className="boxTask addTaskButton"><FontAwesomeIcon icon={faPlus} /></button>
-	);
-}
-
-function AddTaskSpace (props) {
-	return (
-		<div className="boxTask AddTaskSpace">
-			<input type="text" placeholder="Task description" onChange={props.updateTaskText} />
-			<div className="AddTaskButtons">
-				<button onClick={props.handleAdd}>Add</button>
-				<button onClick={props.handleCancel}>Cancel</button>
-			</div>
-		</div>
-	);
-}
-
-function TaskList (props) {
-	const taskList = props.allTaskNodes.map((item)=> {
-		return (<CreateTask 
-			item={item}
-			key={`${item["id"]}${item["content"]}`}
-			handleDeleteNode={props.handleDeleteNode}
-			handleCompletedTask={props.handleCompletedTask}
-		/>);
-	});
-
-	return(
-		<div>
-			{taskList}
-		</div>
-	);
-}
-
-function CreateTask (props) {
-	return (
-		<div className="taskNode">
-			<input type="checkbox" onClick={()=> props.handleCompletedTask(props.item)} />
-			<p>{props.item["content"]}</p>
-			<button onClick={()=> props.handleDeleteNode(props.item)} className="removeButton"><FontAwesomeIcon icon={faTrash} /></button>
-		</div>
-	);
-}
-
-function CompletedList (props) {
-	const allCompletedTasks = props.completedTasks.map((item)=>{
-		return(
-			<CompletedTask 
-				item={item}
-				key={`${item["id"]}${item["content"]}`}
-				undoCompletedtask={props.undoCompletedtask}
+			<AddTask 
+				toggleInput={toggleInput} 
+				toggler={toggler}
+				updateTaskText={updateTaskText}
+				handleAdd={handleAdd}
+				handleCancel={handleCancel}
 			/>
-		);
-	});
-
-	return (
-		<div>
-			{allCompletedTasks}
-		</div>
-	);
-}
-
-function CompletedTask (props) {
-	return (
-		<div className="completedTaskNode" >
-			<input type="checkbox" onChange={()=>props.undoCompletedtask(props.item)} checked/>
-			<p>{props.item["content"]}</p>
 		</div>
 	);
 }

@@ -1,0 +1,18 @@
+#musicPlayer{
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    background-color: white;
+    color: white;
+    border-radius: 10px 10px 0 0;
+}
+
+#musicPlayer button {
+    border: 0;
+    padding: 0;
+    background: none;
+}
+
+.playPause{
+    padding: 5px;
+}

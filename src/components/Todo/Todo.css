@@ -1,9 +1,29 @@
+input {
+    font-size: 16px;
+}
+
+input:focus, textarea:focus, select:focus{
+    outline: none;
+}
+
+textarea {
+    border: none;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    width: 100%;
+    margin-left: 5px;
+    resize: none;
+    overflow: hidden;
+}
+
 #todo {
     width: 100%;
 }
 #todo .header {
     background-color: rgba(255, 255, 255, 0.937);
-    border-radius: 10px 10px 0 0;
+    border-radius: 10px;
     padding: 1rem 0 1rem 0;
     margin-bottom: 0.4rem;
     display: flex;
@@ -17,16 +37,28 @@
 .AddTaskSpace{
     display: flex;
     flex-wrap: wrap;
+    cursor:default !important;
 }
 
-.AddTaskButtons{
+.AddTaskButtonDiv {
     display: flex;
-    align-items: center;
+    justify-content: center;
+}
+
+.AddTaskButtonDiv button {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
 }
 
 .AddTaskSpace input, .AddTaskButtons button{
     border: 0;
     background-color:unset;
+}
+
+.AddTaskButtons button{
+    cursor: pointer;
 }
 
 .boxTask {
@@ -35,11 +67,6 @@
     border: 0;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.937);
-}
-
-.addTaskButton {
-    width: 100%;
-    padding: 0.8rem;
 }
 
 .AddTaskSpace input{
@@ -54,6 +81,8 @@
     padding: 1rem;
     border-radius: 10px;
     margin-bottom: 0.375rem;
+    -webkit-animation: slide-right 90ms cubic-bezier(0.250, 0.460, 0.450, 0.940) reverse;
+	animation: slide-right 90ms cubic-bezier(0.250, 0.460, 0.450, 0.940) reverse;
 }
 
 .taskNode p {
@@ -79,11 +108,60 @@
 .removeButton {
     border: 0;
     background: unset;
+    cursor: pointer;
 }
+
+@media (max-width: 420px) {
+    .pomodoroContainer {
+        margin: 25% auto;
+    }
+}
+
 
 @media (min-width: 1024px) {
     #todo{
         width: 25%;
     }
-    
+}
+
+@-webkit-keyframes slide-right {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  100% {
+    -webkit-transform: translateX(100px);
+            transform: translateX(100px);
+  }
+}
+@keyframes slide-right {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  100% {
+    -webkit-transform: translateX(100px);
+            transform: translateX(100px);
+  }
+}
+
+@-webkit-keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  100% {
+    -webkit-transform: translateX(-100px);
+            transform: translateX(-100px);
+  }
+}
+@keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  100% {
+    -webkit-transform: translateX(-100px);
+            transform: translateX(-100px);
+  }
 }
