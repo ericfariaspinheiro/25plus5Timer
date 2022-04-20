@@ -1,0 +1,17 @@
+
+.naBar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.naBar h1 {
+  padding: 10px;
+  font-size: x-large;
+}
+
+.naBar button{
+    border: 0;
+    background: unset;
+    cursor: pointer;
+}
